@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Chat</string>
+    <string name="RobotName">小白</string>
+    <string name="UserName">User</string>
+    <string name="Send">发送</string>
+    <string name="Hello">你好</string>
+</resources>
