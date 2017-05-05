@@ -6,8 +6,8 @@ package com.zhbit.administrator.chat.bean;
 
 public class Result
 {
-    private int code;
-    private String text;
+    private int code;//返回code的状态码
+    private String text;//内容
 
     public int getCode()
     {

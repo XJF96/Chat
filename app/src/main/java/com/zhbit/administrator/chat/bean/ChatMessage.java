@@ -6,14 +6,14 @@ import java.util.Date;
  * Created by Administrator on 2017/4/21 0021.
  */
 
-public class ChatMessage
+public class ChatMessage//聊天的内容
 {
     private String name;
     private String msg;
-    private Type type;
+    private Type type;//发送还是接收
     private Date date;
 
-    public enum Type
+    public enum Type//枚举
     {
         INCOMING, OUTCOMING
     }

@@ -20,16 +20,20 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends Activity {
-    private ListView mMsgs;
-    private ChatMessageAdapter mAdapter;
-    private List<ChatMessage> mDatas;
+    private ListView mMsgs;//聊天记录
+    private ChatMessageAdapter mAdapter;//适配器
+    private List<ChatMessage> mDatas;//数据集源
+
     private EditText mInputMsg;
     private Button mSendMsg;
+
+
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
+            //等待接收，子线程完成数据的返回
             ChatMessage fromMessge = (ChatMessage)msg.obj;
-            MainActivity.this.mDatas.add(fromMessge);
-            MainActivity.this.mAdapter.notifyDataSetChanged();
+            MainActivity.this.mDatas.add(fromMessge);//加入数据集中
+            MainActivity.this.mAdapter.notifyDataSetChanged();//数据源发生改变
             MainActivity.this.mMsgs.setSelection(MainActivity.this.mDatas.size() - 1);
         }
     };
@@ -39,36 +43,41 @@ public class MainActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(1);
+        this.requestWindowFeature(1);//no title
         this.setContentView(R.layout.activity_main);
+
         this.initView();
         this.initDatas();
         this.initListener();
     }
 
-    private void initListener() {
+    private void initListener() {//初始化事件
         this.mSendMsg.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(View v) {//匿名内部类
                 final String toMsg = MainActivity.this.mInputMsg.getText().toString();
+
                 if(TextUtils.isEmpty(toMsg)) {
                     Toast.makeText(MainActivity.this, "发送消息不能为空！", Toast.LENGTH_SHORT).show();//窗口提示
                 } else {
                     ChatMessage toMessage = new ChatMessage();
                     toMessage.setDate(new Date());
                     toMessage.setMsg(toMsg);
-                    toMessage.setType(ChatMessage.Type.OUTCOMING);
+                    toMessage.setType(ChatMessage.Type.OUTCOMING);//发送类型
+
                     MainActivity.this.mDatas.add(toMessage);
                     MainActivity.this.mAdapter.notifyDataSetChanged();
                     MainActivity.this.mMsgs.setSelection(MainActivity.this.mDatas.size() - 1);
-                    MainActivity.this.mInputMsg.setText("");
+                    MainActivity.this.mInputMsg.setText("");//清空输入框
+
                     (new Thread() {
                         public void run() {
-                            ChatMessage fromMessage = HttpUtils.sendMessage(toMsg);
-                            Message m = Message.obtain();
+                            ChatMessage fromMessage = HttpUtils.sendMessage(toMsg);//网络请求
+                            Message m = Message.obtain();//当子线程拿到from_masg返回的数据后,给message--m
                             m.obj = fromMessage;
-                            MainActivity.this.mHandler.sendMessage(m);
+                            MainActivity.this.mHandler.sendMessage(m);//Handle将消息发送给mHandler
                         }
                     }).start();
+
                 }
             }
         });
@@ -76,9 +85,11 @@ public class MainActivity extends Activity {
 
     private void initDatas() {
         this.mDatas = new ArrayList();
-        this.mDatas.add(new ChatMessage("你好，小白为您服务", ChatMessage.Type.INCOMING, new Date()));
-        this.mAdapter = new ChatMessageAdapter(this, this.mDatas);
-        this.mMsgs.setAdapter(this.mAdapter);
+        this.mDatas.add(new ChatMessage("您好，小白为您服务", ChatMessage.Type.INCOMING, new Date()));
+        //this.mDatas.add(new ChatMessage("Hello,小白",ChatMessage.Type.OUTCOMING,new Date()));
+
+        this.mAdapter = new ChatMessageAdapter(this, this.mDatas);//数据集
+        this.mMsgs.setAdapter(this.mAdapter);//适配器
     }
 
     private void initView() {
