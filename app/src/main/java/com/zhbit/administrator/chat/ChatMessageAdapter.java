@@ -26,7 +26,7 @@ public class ChatMessageAdapter extends BaseAdapter {
     }
 
     public int getCount() {//计数
-        return this.mDatas.size();//数据长度
+        return this.mDatas.size();//数组长度
     }
 
     public Object getItem(int position) {
@@ -34,7 +34,7 @@ public class ChatMessageAdapter extends BaseAdapter {
     }
 
     public long getItemId(int position) {
-        return (long)position;//返回位置长度？
+        return (long)position;//得到子项ID
     }
 
     //接收和发送是不同的位置item

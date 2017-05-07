@@ -48,7 +48,5 @@
                 android:textSize="18sp" >
             </TextView>
         </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>

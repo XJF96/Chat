@@ -8,7 +8,6 @@ import java.util.Date;
 
 public class ChatMessage//聊天的内容
 {
-    private String name;
     private String msg;
     private Type type;//发送还是接收
     private Date date;
@@ -18,10 +17,8 @@ public class ChatMessage//聊天的内容
         INCOMING, OUTCOMING
     }
 
-    public ChatMessage()
-    {
+    public ChatMessage() {
     }
-
     public ChatMessage(String msg, Type type, Date date)
     {
         super();
@@ -29,19 +26,7 @@ public class ChatMessage//聊天的内容
         this.type = type;
         this.date = date;
     }
-
-
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
+    //三个get方法和三个set方法
     public String getMsg()
     {
         return msg;
